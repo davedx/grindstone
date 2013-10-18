@@ -5,7 +5,7 @@ var data = fs.readFileSync('data_mock.json.txt');
 var json = JSON.parse(data);
 
 exports.find = function(col, cond) {
-	var r = [];
+	var r = {};
 	for(var id in json[col]) {
 		var item = json[col][id];
 		var match = true;
@@ -17,10 +17,11 @@ exports.find = function(col, cond) {
 			}
 		}
 		if(match)
-			r.push(item)
+			r[id] = item;
 	}
 	return r;
 }
+
 exports.findOne = function(col, cond) {
 	var id = cond.id;
 	return json[col][id];
@@ -40,3 +41,11 @@ exports.update = function(col, cond, set) {
 exports.insert = function(col, id, set) {
 	json[col][id] = set;
 };
+
+exports.delete = function(col, cond) {
+	var items = this.find(col, cond);
+	for(var k in items) {
+		delete json[col][k];
+	}
+	return items.length;
+}

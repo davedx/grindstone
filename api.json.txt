@@ -13,6 +13,9 @@
 			},
 			"read": {
 				"roles": [ "all" ]
+			},
+			"delete": {
+				"roles": [ "admin" ]
 			}
 		},
 		"companies": {

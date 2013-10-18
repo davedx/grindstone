@@ -14,13 +14,17 @@ var make_fn = function(col, method) {
 			return id;
 		} else if(method === "read") {
 			var cond = arguments[0];
-			console.log("[Read] "+col+" cond: "+JSON.stringify(cond));
+			console.log("[Read] "+col);//+" cond: "+JSON.stringify(cond));
 			return db.find(col, cond);
 		} else if(method === "update") {
 			var cond = arguments[0];
 			var obj = arguments[1];
 			console.log("[Update] "+obj+" on "+col);
 			return db.update(col, cond, obj);
+		} else if(method === "delete") {
+			var cond = arguments[0];
+			console.log("[Delete] "+col);
+			return db.delete(col, cond);
 		}
 		console.log(col + " " + method + " " + obj);
 	}

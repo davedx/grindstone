@@ -13,6 +13,9 @@ var r = server.invoices.update({id: id}, {amount: 6000});
 var nasa = server.invoices.read({id: id});
 console.log(nasa);
 
+server.invoices.delete({id: id});
+
+console.log(db.find("invoices"));
 //console.log(db.find("invoices"));
 /*
 console.log("Testing db");
