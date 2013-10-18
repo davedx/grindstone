@@ -68,12 +68,13 @@ var make_fn = function(col, method, roles, hateoas) {
 exports.generate = function (input) {
 	var api = {};
 	var methods = input.methods;
+	api.methods = {};
 	for(var collection in methods) {
-		api[collection] = {};
+		api.methods[collection] = {};
 
 		for(var method in methods[collection]) {
 			var roles = methods[collection][method].roles;
-			api[collection][method] = make_fn(collection, method, roles).bind(api);
+			api.methods[collection][method] = make_fn(collection, method, roles).bind(api);
 		}
 	}
 	api.meta = input;

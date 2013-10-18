@@ -3,6 +3,7 @@ var api = require('./api.js'),
 	Decorator = require('./hateoas.js'),
 	fs = require('fs');
 
+// for testing
 var input = fs.readFileSync('api.json.txt');
 var json = JSON.parse(input);
 console.log("Generating API");
@@ -17,25 +18,25 @@ var user = {
 server.setUser(user);
 
 console.log("==== create");
-var result = server.invoices.create({data: {company: "NASA", amount: 5000}});
+var result = server.methods.invoices.create({data: {company: "NASA", amount: 5000}});
 var id = result.id;
 console.log(db.find("invoices"));
 
 console.log("==== read");
-var nasa = server.invoices.read({cond: {id: id}});
+var nasa = server.methods.invoices.read({cond: {id: id}});
 console.log(nasa);
 
 console.log("==== update");
-var r = server.invoices.update({cond: {id: id}, data: {amount: 6000}});
+var r = server.methods.invoices.update({cond: {id: id}, data: {amount: 6000}});
 console.log(r);
-var nasa = server.invoices.read({cond: {id: id}});
+var nasa = server.methods.invoices.read({cond: {id: id}});
 console.log(nasa);
 
 console.log("==== delete");
-server.invoices.delete({id: id});
+server.methods.invoices.delete({cond: {id: id}});
 
 console.log(db.find("invoices"));
-//console.log(db.find("invoices"));
+
 /*
 console.log("Testing db");
 
