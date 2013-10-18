@@ -7,10 +7,21 @@ var json = JSON.parse(input);
 console.log("Generating API");
 var server = api.generate(json);
 
-var id = server.invoices.create({company: "NASA", amount: 5000});
-var r = server.invoices.update({id: id}, {amount: 6000});
+var user = {
+	id: "1",
+	name: "Dave",
+	roles: [ "user" ]
+};
+server.setUser(user);
 
-var nasa = server.invoices.read({id: id});
+var id = server.invoices.create({data: {company: "NASA", amount: 5000}});
+
+var nasa = server.invoices.read({cond: {id: id}});
+console.log(nasa);
+
+var r = server.invoices.update({cond: {id: id}, data: {amount: 6000}});
+
+var nasa = server.invoices.read({cond: {id: id}});
 console.log(nasa);
 
 server.invoices.delete({id: id});
