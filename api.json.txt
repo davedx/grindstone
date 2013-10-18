@@ -1,0 +1,24 @@
+{
+	"roles": [
+		"admin", "user", "read-only"
+	],
+
+	"methods": {
+		"invoices": {
+			"create": {
+				"roles": [ "admin", "user" ]
+			},
+			"update": {
+				"roles": [ "admin", "owner" ]
+			}
+		},
+		"companies": {
+			"create": {
+				"roles": [ "admin" ]
+			},
+			"update": {
+				"roles": [ "admin" ]
+			}
+		}
+	}
+}
