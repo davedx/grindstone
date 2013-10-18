@@ -13,7 +13,7 @@ var check_owner = function(col, cond, userId) {
 	return true;
 };
 
-var make_fn = function(col, method, roles) {
+var make_fn = function(col, method, roles, hateoas) {
 	return function(params) {
 		// authorization
 		var authed = false;
@@ -41,32 +41,33 @@ var make_fn = function(col, method, roles) {
 		if(!authed)
 			throw "Not allowed to access this resource: "+method+" on "+col;
 
+		var result = {};
 		// incantation
 		if(method === "create") {
 			if(this.userId)
 				obj.owner = this.userId;
-			console.log("[Insert] "+obj+" on "+col);
 			var id = make_id();
 			db.insert(col, id, obj);
-			return id;
+			result = {id: id};
 		} else if(method === "read") {
-			console.log("[Read] "+col);//+" cond: "+JSON.stringify(cond));
-			return db.find(col, cond);
+			result = {data: db.find(col, cond)};
 		} else if(method === "update") {
-			console.log("[Update] "+obj+" on "+col);
-			return db.update(col, cond, obj);
+			result = {affected: db.update(col, cond, obj)};
 		} else if(method === "delete") {
-			console.log("[Delete] "+col);
-			return db.delete(col, cond);
+			result = {affected: db.delete(col, cond)};
 		}
-		console.log(col + " " + method + " " + obj);
+
+		if(this.decorator)
+			result = this.decorator.decorate(this, col, result);
+
+		console.log("[" + method + "] " + col);
+		return result;
 	}
 };
 
-exports.generate = function (input, hateoas) {
-	var roles = input.roles;
-	var methods = input.methods;
+exports.generate = function (input) {
 	var api = {};
+	var methods = input.methods;
 	for(var collection in methods) {
 		api[collection] = {};
 
@@ -75,6 +76,8 @@ exports.generate = function (input, hateoas) {
 			api[collection][method] = make_fn(collection, method, roles).bind(api);
 		}
 	}
+	api.meta = input;
+
 	api.setUser = function(user) {
 		this.userId = user.id;
 		this.user = user;
