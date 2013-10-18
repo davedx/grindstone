@@ -1,14 +1,26 @@
 var db = require('./db.js');
 
 var make_id = function() {
-	return Date.now();
+	return ""+Date.now();
 };
 
 var make_fn = function(col, method) {
-	return function(obj) {
+	return function() {
 		if(method === "create") {
-			console.log("Inserting "+obj+" on "+col);
-			db.insert(col, make_id(), obj);
+			var obj = arguments[0];
+			console.log("[Insert] "+obj+" on "+col);
+			var id = make_id();
+			db.insert(col, id, obj);
+			return id;
+		} else if(method === "read") {
+			var cond = arguments[0];
+			console.log("[Read] "+col+" cond: "+JSON.stringify(cond));
+			return db.find(col, cond);
+		} else if(method === "update") {
+			var cond = arguments[0];
+			var obj = arguments[1];
+			console.log("[Update] "+obj+" on "+col);
+			return db.update(col, cond, obj);
 		}
 		console.log(col + " " + method + " " + obj);
 	}

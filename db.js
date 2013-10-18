@@ -10,8 +10,11 @@ exports.find = function(col, cond) {
 		var item = json[col][id];
 		var match = true;
 		for(var k in cond) {
-			if(item[k] !== cond[k])
+			if(k === 'id' && id !== cond[k]) {
 				match = false;
+			} else if(k !== 'id' && item[k] !== cond[k]) {
+				match = false;
+			}
 		}
 		if(match)
 			r.push(item)

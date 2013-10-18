@@ -7,9 +7,13 @@ var json = JSON.parse(input);
 console.log("Generating API");
 var server = api.generate(json);
 
-server.invoices.create({company: "NASA", amount: 5000});
+var id = server.invoices.create({company: "NASA", amount: 5000});
+var r = server.invoices.update({id: id}, {amount: 6000});
 
-console.log(db.find("invoices"));
+var nasa = server.invoices.read({id: id});
+console.log(nasa);
+
+//console.log(db.find("invoices"));
 /*
 console.log("Testing db");
 

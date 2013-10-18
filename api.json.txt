@@ -10,6 +10,9 @@
 			},
 			"update": {
 				"roles": [ "admin", "owner" ]
+			},
+			"read": {
+				"roles": [ "all" ]
 			}
 		},
 		"companies": {
