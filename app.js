@@ -24,6 +24,8 @@ console.log(server);
 // add routes from API
 var routes = [];
 var app = express();
+// for client examples
+app.use(express.static(__dirname + '/static'));
 
 var make_handler = function(fn) {
 	return function(req, res) {

@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<title>BackboneJS client example</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<header>
+      <h1></h1>
+      <input id="new-invoice" type="text" placeholder="What needs to be done?">
+    </header>
+
+    <section id="main">
+      <ul id="invoice-list"></ul>
+    </section>
+
+    <footer>
+      <div id="invoice-count"></div>
+    </footer>
+
+  </div>
+
+  <script type="text/template" id="item-template">
+    <div class="view">
+      <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+      <label><%- title %></label>
+      <a class="destroy"></a>
+    </div>
+    <input class="edit" type="text" value="<%- title %>" />
+  </script>
+
+</body>
+<script src="invoices.js"></script>
+</html>

@@ -25,6 +25,7 @@ module.exports = function(baseUrl) {
 			if(hasRole) {
 				actions[method] = {verb: http.getVerb(method), path: paths.getPath(col, method)};
 			}
+			//TODO: if necessary: base (e.g. "http://localhost:8888/") and self (e.g. "/invoices/read")
 		}
 		response.actions = actions;
 		return response;

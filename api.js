@@ -13,7 +13,7 @@ var check_owner = function(col, cond, userId) {
 	return true;
 };
 
-var make_fn = function(col, method, roles, hateoas) {
+var make_fn = function(col, method, roles) {
 	return function(params) {
 		// authorization
 		var authed = false;
@@ -38,8 +38,10 @@ var make_fn = function(col, method, roles, hateoas) {
 			authed = check_owner(col, cond, this.userId);
 		}
 
-		if(!authed)
+		if(!authed) {
+			console.log("Denied: "+method+" on "+col+" cond "+cond+" roles: "+JSON.stringify(roles)+" checkOwner: "+checkOwner+" userId: "+this.userId);
 			throw "Not allowed to access this resource: "+method+" on "+col;
+		}
 
 		var result = {};
 		// incantation
@@ -72,6 +74,8 @@ exports.generate = function (input) {
 	for(var collection in methods) {
 		api.methods[collection] = {};
 
+		//TODO: make e.g. /invoices/:id
+		//then we can HATEOAS decorate at that granularity too (think of owning some but not all items in collection)
 		for(var method in methods[collection]) {
 			var roles = methods[collection][method].roles;
 			api.methods[collection][method] = make_fn(collection, method, roles).bind(api);
