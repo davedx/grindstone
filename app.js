@@ -3,8 +3,7 @@ var api = require('./api.js'),
 	Decorator = require('./hateoas.js'),
 	paths = require('./paths.js'),
 	fs = require('fs'),
-	express = require('express'),
-	Router = require('reversable-router');
+	express = require('express');
 
 var input = fs.readFileSync('api.json.txt');
 var json = JSON.parse(input);
@@ -24,9 +23,6 @@ console.log(server);
 // add routes from API
 var routes = [];
 var app = express();
-//var router = new Router();
-//router.extendExpress(app);
-//router.registerAppHelpers(app);
 
 var make_handler = function(fn) {
 	return function(req, res) {
