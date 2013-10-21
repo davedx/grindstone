@@ -2,6 +2,7 @@ var api = require('./api.js'),
 	db = require('./db.js'),
 	Decorator = require('./hateoas.js'),
 	paths = require('./paths.js'),
+	http = require('./http.js'),
 	fs = require('fs'),
 	express = require('express');
 
@@ -36,10 +37,11 @@ var make_handler = function(fn) {
 for(var collection in server.methods) {
 	for(var method in server.methods[collection]) {
 		var path = paths.getPath(collection, method);
-		console.log("Adding route: " + path);
-		routes.push(path);
+		var verb = http.getVerb(method);
+		console.log("Adding route: " + verb + " " + path);
+		routes.push({verb: verb, path: path});
 
-		app.get(path, make_handler(server.methods[collection][method]));
+		app[verb](path, make_handler(server.methods[collection][method]));
 	}
 }
 app.get('/', function(req, res) {

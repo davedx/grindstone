@@ -1,4 +1,5 @@
-var paths = require('./paths.js');
+var paths = require('./paths.js'),
+		http = require('./http.js');
 
 var baseUrl = 'v1';
 
@@ -19,8 +20,10 @@ module.exports = function(baseUrl) {
 					break;
 				}
 			}
+
+			// HATEOAS means hypertext, so let's map collections and methods to HTTP here
 			if(hasRole) {
-				actions[method] = paths.getPath(col, method);
+				actions[method] = {verb: http.getVerb(method), path: paths.getPath(col, method)};
 			}
 		}
 		response.actions = actions;
