@@ -1,3 +1,5 @@
+var paths = require('./paths.js');
+
 var baseUrl = 'v1';
 
 module.exports = function(baseUrl) {
@@ -18,7 +20,7 @@ module.exports = function(baseUrl) {
 				}
 			}
 			if(hasRole) {
-				actions[method] = true;
+				actions[method] = paths.getPath(col, method);
 			}
 		}
 		response.actions = actions;
