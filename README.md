@@ -23,3 +23,4 @@ TODO:
 
 * Get POST/JSON data into params properly (AJAX on client side? Or param parsing? Or both)
 
+* Check custom methods are feasible (outside of the built-in support for CRUD)
